@@ -6,7 +6,7 @@ import urllib3
 urllib3.disable_warnings()
 import csv
 
-parser = argparse.ArgumentParser(description='Query the Ground Labs API to get details about a match. Outputs in CSV format.')
+parser = argparse.ArgumentParser(description='Remediate files.')
 parser.add_argument('--username',nargs='?',required=True)
 parser.add_argument('--password',nargs='?',required=True)
 parser.add_argument('--api',nargs='?',required=True,help="The API endpoint...e.g. 'https://10.25.85.12:8339'")

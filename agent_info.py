@@ -5,7 +5,7 @@ from requests.auth import HTTPBasicAuth
 import urllib3
 urllib3.disable_warnings()
 
-parser = argparse.ArgumentParser(description='Get a list of all targets.')
+parser = argparse.ArgumentParser(description='Get a list of all agents.')
 parser.add_argument('--username',nargs='?',required=True)
 parser.add_argument('--password',nargs='?',required=True)
 parser.add_argument('--api',nargs='?',required=True,help="The API endpoint...e.g. 'https://10.25.85.12:8339'")
