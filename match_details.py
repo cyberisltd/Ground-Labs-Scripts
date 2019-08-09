@@ -58,4 +58,7 @@ for group in groups:
                             if label["label"] == "File Owner":
                                 owner = label["value"]
                         for detailmatch in detail["matches"]:
-                            print('{name},{group},{path},{data_type},{content},{prohibited},"{created}","{modified}","{owner}",{targetid},{locationid},{objectid}'.format(name=host["name"],group=gname,path=match["path"],data_type=detailmatch["data_type"],content=detailmatch["content"],prohibited=detailmatch["severity"],created=created,modified=modified,owner=owner,targetid=host["id"],locationid=location["id"],objectid=objectid))
+                            try:
+                                print('{name},{group},{path},{data_type},{content},{prohibited},"{created}","{modified}","{owner}",{targetid},{locationid},{objectid}'.format(name=host["name"],group=gname,path=match["path"],data_type=detailmatch["data_type"],content=detailmatch["content"],prohibited=detailmatch["severity"],created=created,modified=modified,owner=owner,targetid=host["id"],locationid=location["id"],objectid=objectid))
+                            except:
+                                print("Error with host {}: {} {}".format(host["name"],match,detailmatch))
