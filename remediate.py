@@ -20,5 +20,5 @@ with open(args.file, newline='') as csvfile:
         json={"path":row["path"],"sign_off":row["sign_off"],"object_ids":row["object_ids"].split(),"reason":row["reason"],"password":row["password"]}
         print("{},{}".format(row["target_id"],row["path"]),end='')
         response = requests.post("{api}/beta/targets/{target_id}/locations/{location_id}/remediation/{action}".format(api=args.api,target_id=row["target_id"],location_id=row["location_id"],action=row["action"]),json=json,auth=HTTPBasicAuth(args.username,args.password),verify=False)
-        print(',{},"{}"'.format(response.status_code,response.text))
+        print(',{},"{}"'.format(response.status_code,response.text.replace('"','\\"')))
 
