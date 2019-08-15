@@ -11,7 +11,7 @@ parser.add_argument('--password',nargs='?',required=True)
 parser.add_argument('--api',nargs='?',required=True,help="The API endpoint...e.g. 'https://10.25.81.12:8339'")
 args = parser.parse_args()
 
-print('Hostname,group,search_status,search_time,comments,matches,prohibited')
+print('target_id,hostname,group,search_status,search_time,comments,matches,prohibited')
 
 response = requests.get("{}/beta/groups".format(args.api),auth=HTTPBasicAuth(args.username,args.password),verify=False)
 groups = json.loads(response.text)
@@ -22,4 +22,4 @@ for group in groups:
     for target in targets:
         response = requests.get("{}/beta/targets/{}".format(args.api,target["id"]),auth=HTTPBasicAuth(args.username,args.password),verify=False)
         detail =  json.loads(response.text)
-        print("{},{},{},{},{},{},{}".format(detail["name"],group["name"],detail["search_status"],detail["search_time"],detail["comments"],detail["matches"]["match"],detail["matches"]["prohibited"]))
+        print("{},{},{},{},{},{},{},{}".format(target["id"],detail["name"],group["name"],detail["search_status"],detail["search_time"],detail["comments"],detail["matches"]["match"],detail["matches"]["prohibited"]))
