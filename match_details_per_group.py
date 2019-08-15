@@ -20,7 +20,7 @@ def subpath_generator(dict_var):
     if "id" in dict_var:
         yield dict_var["id"]
 
-print('Hostname,Path,Data Type,Match,Prohibited,Creation Time,Modified Time,Owner,Target ID,Location ID,Object ID')
+print('Hostname,Path,Data Type,Match,Prohibited,Creation Time,Modified Time,Owner,Location_Description,Target ID,Location ID,Object ID')
 
 #Get group id
 response = requests.get("{}/beta/groups?group_name={}".format(args.api,args.group),auth=HTTPBasicAuth(args.username,args.password),verify=False)
@@ -30,7 +30,7 @@ group = json.loads(response.text)[0]["id"]
 response = requests.get("{}/beta/groups/{}/targets?limit=100000".format(args.api,group),auth=HTTPBasicAuth(args.username,args.password),verify=False)
 targets =  json.loads(response.text)
 for host in targets:
-    if int(host["matches"]["match"]) > 0:
+    if int(host["matches"]["match"]) > 0 or int(host["matches"]["prohibited"]) > 0:
         response = requests.get("{}/beta/targets/{}/locations".format(args.api,host["id"]),auth=HTTPBasicAuth(args.username,args.password),verify=False)
         locations =  json.loads(response.text)
         for location in locations:
@@ -55,6 +55,6 @@ for host in targets:
                             owner = label["value"]
                     for detailmatch in detail["matches"]:
                         try:
-                            print('{name},{path},{data_type},{content},{prohibited},"{created}","{modified}","{owner}",{targetid},{locationid},{objectid}'.format(name=host["name"],path=match["path"],data_type=detailmatch["data_type"],content=detailmatch["content"],prohibited=detailmatch["severity"],created=created,modified=modified,owner=owner,targetid=host["id"],locationid=location["id"],objectid=objectid))
+                            print('{name},{path},{data_type},{content},{prohibited},"{created}","{modified}","{owner}","{location}",{targetid},{locationid},{objectid}'.format(name=host["name"],path=match["path"],data_type=detailmatch["data_type"],content=detailmatch["content"],prohibited=detailmatch["severity"],created=created,modified=modified,owner=owner,location=location["description"],targetid=host["id"],locationid=location["id"],objectid=objectid))
                         except:
                             print("Error with host {}: {} {}".format(host["name"],match,detailmatch))
